@@ -1,28 +1,22 @@
-// app/page.tsx
+import { BlogQK } from "@/libs/constants/query-keys"
+import { getQueryClient } from "@/libs/services/Query"
 import { fetchPosts } from "@/libs/services/server"
-// import { useQuery } from "@tanstack/react-query"
-import Link from "next/link"
+import BlogPosts from "@/modules/blog/components/Blog-posts"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 
 const BlogPage = async () => {
-  const posts = await fetchPosts()
+  const queryClient = getQueryClient()
+
+  await queryClient.prefetchQuery({
+    queryKey: [BlogQK.GET_BLOG_POSTS],
+    queryFn: fetchPosts,
+  })
 
   return (
-    <main className="container mx-auto px-4">
-      <h1 className="text-2xl font-bold mb-4">Blog Posts</h1>
-
-      <div className="space-y-4">
-        {posts?.map((post) => (
-          <Link
-            key={post.id}
-            href={`/post/${post.id}`}
-            className="block p-4 border rounded-lg hover:bg-gray-100 transition"
-          >
-            <h2 className="text-xl font-semibold">{post.title}</h2>
-
-            <p>{post.body.substring(0, 100)}...</p>
-          </Link>
-        ))}
-      </div>
+    <main className="container mx-auto px-4 py-8">
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <BlogPosts />
+      </HydrationBoundary>
     </main>
   )
 }
