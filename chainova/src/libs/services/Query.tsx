@@ -1,6 +1,6 @@
-import { QueryClient } from "@tanstack/react-query"
+import { QueryClient } from '@tanstack/react-query';
 
-let browserQueryClient: QueryClient | undefined = undefined
+let browserQueryClient: QueryClient | undefined;
 
 /**
  * This function creates a new QueryClient with default options for managing queries in a TypeScript
@@ -9,15 +9,14 @@ let browserQueryClient: QueryClient | undefined = undefined
  * of `QueryClient` with default options set for queries, specifically setting the `staleTime` to 60
  * seconds.
  */
-export const makeQueryClient = () => {
-  return new QueryClient({
+export const makeQueryClient = () =>
+  new QueryClient({
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000,
       },
     },
-  })
-}
+  });
 
 /**
  * The function `getQueryClient` returns a query client if it exists in the browser, otherwise it
@@ -26,11 +25,11 @@ export const makeQueryClient = () => {
  * returns a new query client created by the `makeQueryClient` function.
  */
 export const getQueryClient = () => {
-  if (typeof window === "undefined") return makeQueryClient()
+  if (typeof window === 'undefined') return makeQueryClient();
 
   if (!browserQueryClient) {
-    browserQueryClient = makeQueryClient()
+    browserQueryClient = makeQueryClient();
   }
 
-  return browserQueryClient
-}
+  return browserQueryClient;
+};

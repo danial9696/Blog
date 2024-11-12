@@ -1,15 +1,16 @@
-"use client"
+'use client';
 
-import Link from "next/link"
+import Link from 'next/link';
 
-import { fetchPosts } from "@/libs/services/server"
-import { useQuery } from "@tanstack/react-query"
-import { BlogQK } from "@/libs/constants/query-keys"
-const BlogPosts = () => {
+import { useQuery } from '@tanstack/react-query';
+import BlogQK from '@/src/libs/constants/query-keys';
+import { fetchPosts } from '@/src/libs/services/server';
+
+function BlogPosts() {
   const { data } = useQuery({
     queryKey: [BlogQK.GET_BLOG_POSTS],
     queryFn: fetchPosts,
-  })
+  });
 
   return (
     <>
@@ -41,7 +42,7 @@ const BlogPosts = () => {
         ))}
       </div>
     </>
-  )
+  );
 }
 
-export default BlogPosts
+export default BlogPosts;
